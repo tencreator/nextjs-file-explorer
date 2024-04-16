@@ -181,3 +181,7 @@ form > div > input[type="submit"] {
 .gap-2 {
     gap: 2rem;
 }
+
+table tbody tr:nth-child(odd) {
+    background-color: #1f1f1f;
+}

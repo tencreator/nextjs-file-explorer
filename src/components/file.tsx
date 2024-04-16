@@ -2,23 +2,34 @@ import { FileData } from "../utils/types";
 
 export function RenderFile({fileData}: {fileData: FileData}): JSX.Element {
     return (
-        <div className="file-container flex flex-row w-full gap-2">
-            <div className="file-name">{fileData.name}</div>
-            <div className="file-path">{fileData.path}</div>
-            <div className="file-size">{convertBytestoReadable(fileData.size)}</div>
-            <div className="file-type">{fileData.type}</div>
-            <div className="file-last-modified">{unixTimestampToDate(fileData.lastModified)}</div>
-        </div>
+        <tr>
+            <td>{fileData.name}</td>
+            <td>{fileData.path}</td>
+            <td>{convertBytestoReadable(fileData.size)}</td>
+            <td>{fileData.type}</td>
+            <td>{unixTimestampToDate(fileData.lastModified)}</td>
+        </tr>
     )
 }
 
 export function RenderFiles({files}: {files: FileData[]}): JSX.Element {
     return (
-        <section>
-            {files.map((file, index) => (
-                <RenderFile key={index} fileData={file} />
-            ))}
-        </section>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Path</th>
+                    <th>Size</th>
+                    <th>Type</th>
+                    <th>Last Modified</th>
+                </tr>
+            </thead>
+            <tbody>
+                {files.map((file, index) => (
+                    <RenderFile key={index} fileData={file} />
+                ))}
+            </tbody>
+        </table>
     )
 }
 
