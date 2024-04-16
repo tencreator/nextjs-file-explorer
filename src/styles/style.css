@@ -173,3 +173,11 @@ form > div > input[type="submit"] {
     color: white;
     cursor: pointer;
 }
+
+.w-full {
+    width: 100%;
+}
+
+.gap-2 {
+    gap: 2rem;
+}
