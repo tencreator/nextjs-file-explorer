@@ -1,52 +1,35 @@
-import React from "react"
+import Axios from 'axios'
+import React, { useEffect, useState } from "react"
 import { FileData } from "../utils/types"
 import { RenderFiles } from "../components/file"
 
 export default function Home(): JSX.Element {
-    const files: FileData[] = [
-        {
-            name: "example.txt",
-            path: "/documents/",
-            size: 1024, // in bytes
-            type: "Text",
-            lastModified: 1644362400000 // Unix timestamp in milliseconds
-        },
-        {
-            name: "image.jpg",
-            path: "/images/",
-            size: 2048, // in bytes
-            type: "JPEG",
-            lastModified: 1644362600000 // Unix timestamp in milliseconds
-        },
-        {
-            name: "document.pdf",
-            path: "/documents/",
-            size: 4096, // in bytes
-            type: "PDF",
-            lastModified: 1644362800000 // Unix timestamp in milliseconds
-        },
-        {
-            name: "presentation.pptx",
-            path: "/presentations/",
-            size: 8192, // in bytes
-            type: "PowerPoint Presentation",
-            lastModified: 1644363000000 // Unix timestamp in milliseconds
-        },
-        {
-            name: "spreadsheet.xlsx",
-            path: "/documents/",
-            size: 6144, // in bytes
-            type: "Excel Spreadsheet",
-            lastModified: 1644363200000 // Unix timestamp in milliseconds
-        }
-    ]
+    const [files, setFiles] = useState<FileData[]>([])
+    const [path, setPath] = useState<string>('/')
+    const [startFrom, setStartFrom] = useState<number>(0)
+    const [amountOfFiles, setAmountOfFiles] = useState<number>(0)
+
+    
+    useEffect(() => {
+        Axios.get(`/api/files/getFiles?path=${path}&startFrom=${startFrom}`)
+            .then(res => setFiles(res.data))
+            .catch(err => console.error(err))
+        Axios.get(`/api/files/getAmount?path=${path}`)
+            .then(res => setAmountOfFiles(res.data))
+            .catch(err => console.error(err))
+        }, [path, startFrom])
 
 
     return (
         <div className='flex container flex-col'>
             <h1 className="mb-0-5">Files</h1>
-            <section className="flex flex-center">
-                <RenderFiles files={files} />
+            <section className="flex flex-center flex-col">
+                <input type="text" value={path} onChange={e => setPath(e.target.value)} />
+                    <RenderFiles files={files} path={path} setPath={setPath} />
+                <div className="flex">
+                    <button onClick={() => setStartFrom(startFrom - 10)} disabled={startFrom === 0}>Previous</button>
+                    <button onClick={() => setStartFrom(startFrom + 10)} disabled={amountOfFiles <= startFrom + 10}>Next</button>
+                </div>
             </section>
         </div>
     )

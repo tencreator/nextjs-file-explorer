@@ -182,6 +182,32 @@ form > div > input[type="submit"] {
     gap: 2rem;
 }
 
-table tbody tr:nth-child(odd) {
+
+.table {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+.table .tr {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.table .tr .th, .table .tr .td {
+    color: white;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.table .tbody .tr:nth-child(odd) {
     background-color: #1f1f1f;
+}
+
+.table > .thead .tr {
+    background-color: #007bff;
 }
